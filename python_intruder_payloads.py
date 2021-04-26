@@ -208,6 +208,9 @@ class PythonPayloadsTab(ITab):
 
         # Create help label for payload generator
         payload_processor_help_text = 'Define a payload processor here.\n\n' \
+                                      'Burp Extender helper and callback functions are\n' \
+                                      'available from _helpers and _callbacks, such as\n' \
+                                      '_helpers.bytesToString(currentPayload)\n' \
                                       'The current payload is available in the\n' \
                                       'variable "currentPayload".\n' \
                                       'The original pre-processed payload is available\n' \
