@@ -9,6 +9,8 @@ from burp import IIntruderPayloadGeneratorFactory, IIntruderPayloadProcessor
 import base64
 import traceback
 
+_helpers, _callbacks = None, None
+
 class BurpExtender(IBurpExtender, IIntruderPayloadGeneratorFactory, IIntruderPayloadProcessor, IExtensionStateListener):
 
     #
@@ -17,8 +19,9 @@ class BurpExtender(IBurpExtender, IIntruderPayloadGeneratorFactory, IIntruderPay
     
     def registerExtenderCallbacks(self, callbacks):
         # obtain an extension helpers object
-        self._helpers = callbacks.getHelpers()
-        self.callbacks = callbacks
+        global _helpers, _callbacks
+        _helpers = callbacks.getHelpers()
+        _callbacks = callbacks
 
         # load scripts from file
         try:
@@ -263,6 +266,7 @@ class PythonPayloadsTab(ITab):
 
 class IntruderPayloadGenerator(IIntruderPayloadGenerator):
     def __init__(self, code, attack):
+        global _helpers, _callbacks
         self._payloadIndex = 0
         payloads = []
         try:
